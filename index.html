@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Pom Pom Crush</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body {
+    margin: 0; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #141414;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  header {
+    width: 100%;
+    background: #e50914;
+    padding: 20px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: white;
+  }
+  #videoList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
+    gap: 20px;
+    max-width: 1000px;
+    padding: 20px;
+    width: 100%;
+  }
+  .video-card {
+    background: #222;
+    border-radius: 8px;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    user-select: none;
+    text-align: center;
+    padding: 10px 12px;
+  }
+  .video-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(229,9,20,0.9);
+  }
+
+  #previewContainer {
+    max-width: 900px;
+    width: 100%;
+    background: #222;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(229,9,20,0.7);
+    margin: 20px 0 40px;
+    display: none;
+    color: white;
+  }
+
+  #backBtn {
+    background: #e50914;
+    border: none;
+    padding: 12px 24px;
+    color: white;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background 0.3s ease;
+  }
+  #backBtn:hover {
+    background: #b0060f;
+  }
+
+  @media (max-width: 600px) {
+    #videoList {
+      grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
+      gap: 15px;
+      padding: 15px;
+    }
+    .video-card {
+      height: 100px;
+      font-size: 1.1rem;
+      padding: 8px 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>Pom Pom Crush</header>
+
+<div id="videoList">Loading videos...</div>
+
+<div id="previewContainer">
+  <button id="backBtn">← Back to List</button>
+  <div id="previewContent"></div>
+</div>
+
+<script>
+  const videoList = document.getElementById('videoList');
+  const previewContainer = document.getElementById('previewContainer');
+  const previewContent = document.getElementById('previewContent');
+  const backBtn = document.getElementById('backBtn');
+
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  backBtn.onclick = () => {
+    previewContainer.style.display = 'none';
+    videoList.style.display = 'grid';
+    previewContent.innerHTML = '';
+    history.pushState({}, '', window.location.pathname);
+    window.scrollTo({top:0, behavior:'smooth'});
+  };
+
+  async function loadData() {
+    try {
+      const res = await fetch('https://post-builder-45316-default-rtdb.asia-southeast1.firebasedatabase.app/allData.json');
+      const json = await res.json();
+      const dataArray = Object.values(json);
+      const id = getQueryParam('id');
+
+      if(id) {
+        // Show preview if id param present
+        const match = dataArray.find(item => item.id == id);
+        if(match) {
+          videoList.style.display = 'none';
+          previewContainer.style.display = 'block';
+          previewContent.innerHTML = match.data;
+          window.scrollTo({top:0, behavior:'smooth'});
+        } else {
+          videoList.innerHTML = `<p style="color:#e50914; text-align:center; margin:30px;">No data found for ID: ${id}</p>`;
+        }
+        return;
+      }
+
+      // Otherwise show grid list
+      previewContainer.style.display = 'none';
+      videoList.style.display = 'grid';
+      videoList.innerHTML = '';
+
+      dataArray.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'video-card';
+        card.tabIndex = 0;
+        card.textContent = `Video ${item.id}`;
+
+        card.onclick = () => {
+          previewContent.innerHTML = item.data;
+          videoList.style.display = 'none';
+          previewContainer.style.display = 'block';
+          history.pushState({}, '', '?id=' + item.id);
+          window.scrollTo({top:0, behavior:'smooth'});
+        };
+
+        card.onkeypress = (e) => {
+          if(e.key === 'Enter' || e.key === ' ') {
+            card.click();
+          }
+        };
+
+        videoList.appendChild(card);
+      });
+
+    } catch(err) {
+      videoList.innerHTML = `<p style="color:#e50914; text-align:center; margin:30px;">Failed to load videos.</p>`;
+      console.error(err);
+    }
+  }
+
+  loadData();
+</script>
+
+</body>
+</html>
