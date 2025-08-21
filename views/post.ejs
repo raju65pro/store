@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= post.title %> - <%= site.title %></title>
+  <meta name="description" content="<%= post.description %>" />
+
+  <!-- OG Meta -->
+  <meta property="og:title" content="<%= post.title %>" />
+  <meta property="og:description" content="<%= post.description %>" />
+  <meta property="og:type" content="video.other" />
+  <meta property="og:url" content="<%= site.url %>/<%= post.slug %>" />
+  <meta property="og:image" content="<%= post.thumbnail %>" />
+  <meta property="og:video" content="<%= post.videoUrl %>" />
+
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include("partials/header") %>
+
+  <main class="container">
+    <h1 class="page-title"><%= post.title %></h1>
+
+    <div class="video-player">
+      <video controls preload="metadata" poster="<%= post.thumbnail %>">
+        <source src="<%= post.videoUrl %>" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <div class="post-meta">
+      <p><strong>Category:</strong> <a href="/category/<%= post.category %>"><%= post.category %></a></p>
+      <p><strong>Published:</strong> <%= post.date %></p>
+    </div>
+
+    <p class="post-description"><%= post.description %></p>
+
+    <div class="tags">
+      <% post.tags.forEach(tag => { %>
+        <a href="/tag/<%= tag %>" class="tag">#<%= tag %></a>
+      <% }) %>
+    </div>
+
+    <h2 class="related-title">Related Videos</h2>
+    <div class="grid">
+      <% related.forEach(r => { %>
+        <div class="card">
+          <a href="/<%= r.slug %>">
+            <img src="<%= r.thumbnail %>" alt="<%= r.title %>" class="thumb" />
+            <h3 class="card-title"><%= r.title %></h3>
+          </a>
+        </div>
+      <% }) %>
+    </div>
+  </main>
+
+  <%- include("partials/footer") %>
+</body>
+</html>

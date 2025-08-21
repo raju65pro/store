@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= site.title %></title>
+  <meta name="description" content="<%= site.description %>" />
+
+  <!-- OG Meta -->
+  <meta property="og:title" content="<%= site.title %>" />
+  <meta property="og:description" content="<%= site.description %>" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="<%= site.url %>" />
+  <meta property="og:image" content="<%= site.ogImage %>" />
+
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include("partials/header") %>
+
+  <main class="container">
+    <h2 class="page-title">Latest Videos</h2>
+
+    <div class="grid">
+      <% posts.forEach(post => { %>
+        <div class="card">
+          <a href="/<%= post.slug %>">
+            <img src="<%= post.thumbnail %>" alt="<%= post.title %>" class="thumb" />
+            <h3 class="card-title"><%= post.title %></h3>
+          </a>
+        </div>
+      <% }) %>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <% if (currentPage > 1) { %>
+        <a href="/page/<%= currentPage - 1 %>" class="btn">← Prev</a>
+      <% } %>
+      <% if (currentPage < totalPages) { %>
+        <a href="/page/<%= currentPage + 1 %>" class="btn">Next →</a>
+      <% } %>
+    </div>
+  </main>
+
+  <%- include("partials/footer") %>
+</body>
+</html>

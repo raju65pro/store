@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= tag %> - <%= site.title %></title>
+  <meta name="description" content="Watch latest videos with tag <%= tag %> on <%= site.title %>" />
+
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include("partials/header") %>
+
+  <main class="container">
+    <h1 class="page-title">Tag: <%= tag %></h1>
+
+    <div class="grid">
+      <% posts.forEach(post => { %>
+        <div class="card">
+          <a href="/<%= post.slug %>">
+            <img src="<%= post.thumbnail %>" alt="<%= post.title %>" class="thumb" />
+            <h3 class="card-title"><%= post.title %></h3>
+          </a>
+        </div>
+      <% }) %>
+    </div>
+
+    <div class="pagination">
+      <% if (page > 1) { %>
+        <a href="/tag/<%= tag %>?page=<%= page - 1 %>" class="btn">← Prev</a>
+      <% } %>
+      <% if (hasMore) { %>
+        <a href="/tag/<%= tag %>?page=<%= page + 1 %>" class="btn">Next →</a>
+      <% } %>
+    </div>
+  </main>
+
+  <%- include("partials/footer") %>
+</body>
+</html>

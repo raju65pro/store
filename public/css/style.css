@@ -1,0 +1,154 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #fff;
+}
+
+a {
+  color: #e50914;
+  text-decoration: none;
+}
+
+.header, .footer {
+  background: #000;
+  padding: 10px;
+  text-align: center;
+}
+
+.logo a {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e50914;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2px;
+}
+
+.page-title {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #e50914;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.thumb {
+  width: 100%;
+  display: block;
+}
+
+.card-title {
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+}
+
+.meta {
+  padding: 0 10px 10px;
+  font-size: 12px;
+  color: #aaa;
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn {
+  background: #e50914;
+  color: #fff;
+  padding: 10px 20px;
+  margin: 5px;
+  display: inline-block;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #b20710;
+}
+.video-player {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.video-player video {
+  width: 100%;
+  max-width: 900px;
+  border-radius: 8px;
+  background: #000;
+}
+
+.post-meta {
+  font-size: 14px;
+  color: #bbb;
+  margin: 10px 0;
+}
+
+.post-description {
+  font-size: 16px;
+  margin: 15px 0;
+  color: #ddd;
+}
+
+.tags {
+  margin: 15px 0;
+}
+
+.tag {
+  display: inline-block;
+  margin: 5px;
+  padding: 5px 10px;
+  background: #e50914;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.tag:hover {
+  background: #b20710;
+}
+
+.related-title {
+  margin: 25px 0 15px;
+  font-size: 22px;
+  color: #e50914;
+}
+.pagination {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.pagination .btn {
+  display: inline-block;
+  padding: 8px 15px;
+  margin: 5px;
+  background: #e50914;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.pagination .btn:hover {
+  background: #b20710;
+}
